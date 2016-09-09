@@ -73,6 +73,16 @@ Type `help` to get all available commands.
 
 Configure the device if necessary: set label, baudrate and other stuff if it differs from defaults. Then don't forget to type `save`. You are done. Now the box is ready for work. Next time it will load the settings from the memory.
 
+For example:
+```
+baudrate 9600
+parity N
+stopbits 1
+wordlength 8
+save
+?
+```
+
 ## Plugging the box to the device
 
 Once again, you will probably need a null-modem and gender-changer adapters. Then you can test if everything works by connecting to the device via telnet on port **23**:
