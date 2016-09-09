@@ -103,6 +103,25 @@ telnet <ip-address> 24
 
 and start typing stuff that you want to send to your serial device. All the data that you send to port 23 will be sent to the serial port and visa versa.
 
+## Troubleshooting
+
+### Sketch does not compile
+
+- Check if you have a EEPROMAnything library installed in `Documents/Arduino/libraries`
+- Check if you are using [correct Ethernet and UDP libraries](#etherneth-or-ethernet2h)
+
+### I can't connect to the device via network
+
+- Check if you are using [correct Ethernet and UDP libraries](#etherneth-or-ethernet2h)
+- Try to upload a simple example that comes with the ethernet library (for example ChatServer)
+- Check that you are connecting to the right port (23 for communication, 24 for configuration)
+
+### I don't get a responces from my serial device
+
+- Check that you are using a correct serial cable - you may need a cross cable
+- Check that serial port settings are correct (baudrate, parity, stopbits and wordlength have to be the same both in arduino and in the device)
+- Try to connect your serial device directly to the computer and talk to it. Maybe you just type wrong commands.
+
 ## Extra
 
 There is a python script, `dummy_device.py`. It can be used for debugging.
