@@ -73,6 +73,16 @@ Type `help` to get all available commands.
 
 Configure the device if necessary: set label, baudrate and other stuff if it differs from defaults. Then don't forget to type `save`. You are done. Now the box is ready for work. Next time it will load the settings from the memory.
 
+Available commands:
+- `?` - get <label>,<baudrate>,<parity>,<wordlength>,<stopbits>
+- `label [string]` - get or set custom label for this box (up to 32 characters)
+- `baudrate [value]` - get or set baudrate (300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200)
+- `parity [value]` - get or set parity (N, E, O)
+- `wordlength [value]` - get or set wordlength (5, 6, 7, 8)
+- `stopbits [value]` - get or set stopbits (1, 2)
+- `save` - saves current settings to EEPROM memory
+- `load` - loads settings from EEPROM memory
+
 For example:
 ```
 baudrate 9600
