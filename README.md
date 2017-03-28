@@ -29,17 +29,17 @@ A [hardcoded](./serial_to_ethernet_hardcoded/) version is much simpler, so for d
 
 There are two sketches in the folder: `serial_to_ethernet` and `serial_to_ethernet_hardcoded`.
 
-A full (not hardcoded) version uses [this library](https://github.com/stepansnigirev/ArduinoEEPROMAnything) as a dependency, as my Arduino IDE does not have a EEPROM.put and EEPROM.get methods (If you are unlucky to use Arduino board from arduino.org, you will have the same issue). So you need to download this library and put it to your `Documents/Arduino/libraries/` folder.
+A full (not hardcoded) version uses [this library](https://github.com/stepansnigirev/ArduinoEEPROMAnything) as a dependency, as my Arduino IDE does not have a EEPROM.put and EEPROM.get methods (If you are unlucky to use Arduino board from arduino.org, you will have the same issue). So, you need to download this library and put it to your `Documents/Arduino/libraries/` folder.
 
-A hardcoded version does not use any dependencies but also can not be remotely re-configured. So choose which one you want to use, but I would recommend the full configurable version.
+A hardcoded version does not use any dependencies but also cannot be remotely re-configured. So choose which one you want to use, but I would recommend the full configurable version.
 
 #### Ethernet.h or Ethernet2.h?
 
-Depending on the chip that is used in your board / Ethernet shield, you will need to use either `Ethernet.h` or `Ethernet2.h` library. 
+Depending on the chip that is used in your board / Ethernet shield, you will need to use either `Ethernet.h` or `Ethernet2.h` library.
 
-If you know what library to use to make network on your board working, just comment/uncomment corresponding lines in the begining of the sketch.
+If you know what library to use to make network on your board working, just comment/uncomment corresponding lines in the beginning of the sketch.
 
-To figure out which one works for you I would recommend first to upload to your board an example sketch (for example `ChatServer`) from both libraries and check wich one will work.
+To figure out which one works for you I would recommend first to upload to your board an example sketch (for example `ChatServer`) from both libraries and check which one will work.
 
 #### Network configuration
 
@@ -49,7 +49,7 @@ Depending on your network, you may need or not need to assign IP address, gatewa
 
 #### Serial Shield configuration
 
-This sketch uses a hardware serial port (called Serial1), that uses TX and RX pins (D0, D1) for data transmission. So you need to configure your shield to use with the same pins. If you want to use a software serial - you will need to change the sketch and use one of software serial libraries.
+This sketch uses a hardware serial port (called Serial1), that uses TX and RX pins (D0, D1) for data transmission. So, you need to configure your shield to use with the same pins. If you want to use a software serial - you will need to change the sketch and use one of software serial libraries.
 
 #### Serial port configuration
 
@@ -121,7 +121,3 @@ and start typing stuff that you want to send to your serial device. All the data
 - Check that you are using a correct serial cable - you may need a cross cable
 - Check that serial port settings are correct (baudrate, parity, stopbits and wordlength have to be the same both in arduino and in the device)
 - Try to connect your serial device directly to the computer and talk to it. Maybe you just type wrong commands.
-
-## Extra
-
-There is a python script, `dummy_device.py`. It can be used for debugging.
