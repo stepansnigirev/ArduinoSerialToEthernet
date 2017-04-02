@@ -11,6 +11,7 @@ Checked to work with different scientific equipment like XGS600 gauges controlle
 - Autodetect the device via UDP broadcast messages
 - Talk to the serial device via simple TCP/IP (for example with telnet)
 - Connect to the serial device from multiple computers (up to 10)
+- Several useful python scripts included
 
 ## Quickstart
 
@@ -121,10 +122,10 @@ save
 Once again, you will probably need a null-modem and gender-changer adapters. Then you can test if everything works by connecting to the device via telnet on port **23**:
 
 ```
-telnet <ip-address> 24
+telnet <ip-address> 23
 ```
 
-and start typing stuff that you want to send to your serial device. All the data that you send to port 23 will be sent to the serial port and visa versa.
+and start typing stuff that you want to send to your serial device. All the data that you send to port 23 will be sent to the serial port and vice versa.
 
 ## Troubleshooting
 
@@ -139,3 +140,15 @@ and start typing stuff that you want to send to your serial device. All the data
 - Check that you are using a correct serial cable - you may need a cross cable or a straight cable.
 - Check that serial port settings are correct (baudrate, parity, stopbits and wordlength have to be the same both in arduino and in the device).
 - Try to connect your serial device directly to the computer and talk to it. Maybe you just type wrong commands.
+
+## Extra tools
+
+In the `tools` folder there are python scripts.
+
+### `udp_scan.py`
+
+Run this script to find ip addresses of your Serial2Ethernet gateways.
+
+### `dummy_device.py`
+
+To test if arduino box is working correctly, you can plug it to the network and to your computer with Serial-USB adapter. Then run `dummy_device.py` script to start a test device. This device will answer with a phrase `YEYYYYY!!!!\r\n` as soon as it recieves `?` character. Very simple but might be useful for testing/debugging.
