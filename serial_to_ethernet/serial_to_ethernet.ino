@@ -1,27 +1,37 @@
+/*
+ * This sketch allows you to make a configurable
+ * Serial-To-Ethernet gate, so you could just plug
+ * your arduino to the network and to the serial device
+ * and it will transfer all the data from serial port
+ * to the network and vice versa.
+ */
+
 // to store settings in memory
 #include <EEPROM.h>
-#include <EEPROMAnything.h>
 
 #include <SPI.h>
-/* 
-  Uncomment one of the following lines depanding on 
-  what ethernet library works with your board.
-  For Leonardo ETH from arduino.org you need Ethernet2.
-*/
+/*
+ * Uncomment one of the following lines depending on
+ * what ethernet library works with your board.
+ * If it is based on W5500 chip you will need
+ * Ethernet2.h and EthernetUdp2.h
+ */
+
 //#include <Ethernet.h>
 //#include <EthernetUdp.h>
 #include <Ethernet2.h>
 #include <EthernetUdp2.h>
 
-/* 
-  Enabe debug tracing to usual Serial port
-  Comment this for production
-*/
+/*
+ * Enables debug mode and duplicates everything to USB Serial port
+ * Also prints ip address to the USB Serial port
+ * when recieves any characted to the USB Serial port
+ */
 #define DEBUG
 
-// telnet port to send commands
+// Port to send commands
 #define CMD_PORT 23
-// telnet port for configuration
+// Port for configuration
 #define CONTROL_PORT 24
 // UDP port
 #define UDP_PORT 8788
@@ -32,13 +42,19 @@
 byte mac[] = {
   0x90, 0xA2, 0xDA, 0x10, 0x5C, 0xEE
 };
-/* 
+/*
   For manual configuration of the network uncomment the following lines
   and change the Ethernet.begin arguments in the setup() function
 */
 //IPAddress ip(192, 168, 1, 177);
 //IPAddress gateway(192, 168, 1, 1);
 //IPAddress subnet(255, 255, 0, 0);
+
+/*
+ * ==================================
+ * Everything below should just work
+ * ==================================
+ */
 
 // structure to store settings of the serial port
 struct ComSettings{
@@ -49,12 +65,9 @@ struct ComSettings{
   long stopbits;
 };
 
-// change this for serial port configuration
-ComSettings settings = {"Undefined", 9600, 'N', 8, 1};
-//ComSettings settings = {"Undefined", 38400, 'O', 7, 2}; // wierd settings for testing
+ComSettings settings;
 
-// ===============================================================
-
+// default serial port configuration
 ComSettings defaults = {"Undefined", 9600, 'N', 8, 1};
 
 long serialSettings(struct ComSettings s){
@@ -109,16 +122,16 @@ void parseCmd(String s, EthernetClient client){
   bool changed = false;
 
   if(s=="save"){
-    EEPROM_writeAnything(0, settings);
+    EEPROM.put(0, settings);
     client.println("Saved!");
   }
 
   if(s=="load"){
-    EEPROM_readAnything(0, settings);
+    EEPROM.get(0, settings);
     client.println("Loaded!");
     changed = true;
   }
-  
+
   if(s=="?"){
     client.print(settings.label);
     client.print(",");
@@ -130,7 +143,7 @@ void parseCmd(String s, EthernetClient client){
     client.print(",");
     client.println(settings.stopbits);
   }
-  
+
   int l = s.length();
   if(s.startsWith("label")){
     if(l>6){
@@ -191,7 +204,7 @@ void reopenSerial(){
 
 void checkControl(){
   EthernetClient client = controlServer.available();
-  
+
   if (client) {
     if (!controlAlreadyConnected) {
       // clean out the input buffer:
@@ -268,7 +281,7 @@ void checkUDP(){
       Serial.println("Contents:");
       Serial.println(packetBuffer);
     #endif
-        
+
     if(strcmp(packetBuffer,"?") == 0){
       // send a reply, to the IP address and port that sent us the packet we received
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
@@ -283,11 +296,11 @@ void setup() {
   Ethernet.begin(mac);
 //  Ethernet.begin(mac, ip, gateway, subnet);
 
-  EEPROM_readAnything(0, settings);
+  EEPROM.get(0, settings);
   // very stupid check
   if(settings.baudrate<300){
-    EEPROM_writeAnything(0, defaults);
-    EEPROM_readAnything(0, settings);
+    EEPROM.put(0, defaults);
+    EEPROM.get(0, settings);
   }
 
   cmdServer.begin();
@@ -297,13 +310,13 @@ void setup() {
   #ifdef DEBUG
     Serial.begin(9600);
     printConfig();
-  #endif  
+  #endif
 }
 
 void loop() {
   // wait for a new client:
   EthernetClient client = cmdServer.available();
-  
+
   // to disable telnet control just comment the line below
   checkControl();
   checkUDP();
@@ -326,8 +339,8 @@ void loop() {
       #endif
     }
   }
-  
-  // transfer all bytes to the cmdServer 
+
+  // transfer all bytes to the cmdServer
   // (all connected clients will recieve it)
   if(Serial1.available() > 0){
     c = Serial1.read();

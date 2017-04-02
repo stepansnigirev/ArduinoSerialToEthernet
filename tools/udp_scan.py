@@ -25,5 +25,5 @@ while True:
     except:
         print("Scan done. Found %i devices:" % len(devices))
         for d in devices:
-            print("\t%s:%d" % d)
+            print("\t%s" % d[0])
         sys.exit()
